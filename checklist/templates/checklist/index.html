@@ -1,0 +1,9 @@
+<h1> Welcome to the checklist finder. </h1>
+<p> Please select the date below. </p>
+
+
+   <form action="{% url 'checklist:index' %}"  method="POST">
+          {% csrf_token %}
+          {{ form.as_table }}  
+        <input type="submit">
+</form>
