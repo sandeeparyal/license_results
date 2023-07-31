@@ -13,8 +13,27 @@ class Officer(models.Model):
         return(self.officer_name)
 
 
-class Checklist(models.Model):
+class ExamType(models.Model):
     
+    EXAM_WRITTEN = "W"
+    EXAM_TRIAL = "T"
+    EXAM_INTERVIEW = "I"
+    
+    EXAM_CHOICES = {
+             
+        (EXAM_WRITTEN, "Written"),
+        (EXAM_TRIAL, "Trial"),
+        (EXAM_INTERVIEW, "Interview"),
+     }
+    
+    exam_type = models.CharField(max_length=10, choices=EXAM_CHOICES)
+    remarks =  models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.exam_type
+
+class LicenseType(models.Model):
+
     CATEGORY_A = "A"
     CATEGORY_B = "B"
     CATEGORY_C = "C"
@@ -35,12 +54,8 @@ class Checklist(models.Model):
     CATEGORY_J5 = "J5"
     CATEGORY_K = "K"
     WRITTEN_CATEGORY = "X"
- 
-    CHECKLIST_EXAM_WRITTEN = "W"
-    CHECKLIST_EXAM_TRIAL = "T"
-    CHECKLIST_EXAM_INTERVIEW = "I"
 
-    CHECKLIST_CATEGORY_CHOICES = {
+    CATEGORY_CHOICES = {
          (CATEGORY_A, "A"),
          (CATEGORY_B, "B"),
          (CATEGORY_C, "C"),
@@ -62,22 +77,37 @@ class Checklist(models.Model):
          (CATEGORY_K, "K"),
          (WRITTEN_CATEGORY, "Not Applicable"),
      }
+    
+    license_name = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    license_description = models.CharField(max_length=100, null=True)
 
-    CHECKLIST_EXAM_CHOICES = {
-             
-        (CHECKLIST_EXAM_WRITTEN, "Written"),
-        (CHECKLIST_EXAM_TRIAL, "Trial"),
-        (CHECKLIST_EXAM_INTERVIEW, "Interview"),
-     }
+    def __str__(self):
+        return(self.license_name)
 
+class Checklist(models.Model):
     checklist_name = models.CharField(max_length=20)
-    checklist_type = models.CharField(max_length=1, choices=CHECKLIST_EXAM_CHOICES, default=CHECKLIST_EXAM_TRIAL)
-    checklist_date = models.DateField(default=date.today)
-    checklist_category = models.CharField(max_length=2, choices=CHECKLIST_CATEGORY_CHOICES, default=CATEGORY_A)
     checklist_file = models.FileField(upload_to='checklist/')
-    checklist_officer = models.ManyToManyField(Officer)
-
+    remarks = models.CharField(max_length=200, null=True)
 
     def __str__(self):
         return(self.checklist_name)
+
+
+class Examination(models.Model):
+    examination_date = models.DateField(default=date.today)
+    passed_candidate = models.IntegerField(default=0)
+    failed_candidate = models.IntegerField(default=0)
+    absent_candidate = models.IntegerField(default=0)
+    traffic_officers = models.CharField(max_length=200)
+    
+    examination_type = models.ForeignKey(ExamType, on_delete=models.CASCADE)
+    examination_license_type = models.ForeignKey(LicenseType, on_delete=models.CASCADE)
+    examination_officer = models.ForeignKey(Officer, on_delete=models.CASCADE)
+    examination_checklist = models.ForeignKey(Checklist, on_delete=models.CASCADE)
+    
+    def candidates(self):
+        return(self.passed_candidate+self.failed_candidate+self.absent_candidate)
+
+    def __str__(self):
+        return(str(self.examination_date))
 
