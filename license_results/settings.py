@@ -132,5 +132,6 @@ LOGIN_REDIRECT_URL = '/checklist'
 
 STATICFILES_DIRS = [
         BASE_DIR / "media/",
+        BASE_DIR / "checklist/static/",
         ]
 
