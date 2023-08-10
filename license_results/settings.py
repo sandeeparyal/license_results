@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-s#c4^)_ssb5+(6*4gd5dl^%hvrie&(71eps^4#6mxff&@l2p@m"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'checklist.apps.ChecklistConfig',
     "django.contrib.admin",
     "django.contrib.auth",
+    "crispy_forms",
+    "crispy_bootstrap5",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
@@ -51,6 +53,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+CRISPY_ALLOWED_TEMPLATE_PACKS  = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 ROOT_URLCONF = "license_results.urls"
 
