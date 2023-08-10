@@ -3,10 +3,10 @@
 
 {% block content %}
 <div class="container-md">
-<form action="{% url 'checklist:index' %}"  method="POST">
+<form action="{% url 'checklist:index' %}"  method="POST" id="form1">
           {% csrf_token %}
           {{ form|crispy}}  
-	  <button type="button" class="btn btn-primary"> Submit </button> 
+	  <button type="submit" form="form1" value="Submit">Submit</button>
 </form>
 </div>
 
