@@ -12,6 +12,7 @@ from .forms import ExaminationForm
 def index(request):
     if request.method == 'POST':
         form = ExaminationForm(request.POST)
+        
         if form.is_valid():
             examination_date = form.cleaned_data['examination_date']
             examination_type = form.cleaned_data['examination_type']

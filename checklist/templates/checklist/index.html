@@ -2,12 +2,18 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<div class="row">
+
 <div class="container-md">
+	<div class="mx-auto col-10 col-md-8 col-lg-6">
 <form action="{% url 'checklist:index' %}"  method="POST" id="form1">
           {% csrf_token %}
-          {{ form|crispy}}  
+	  {{ form|crispy}}  
 	  <button type="submit" form="form1" value="Submit">Submit</button>
 </form>
+	</div>
+	</div>
 </div>
+
 
 {% endblock %}

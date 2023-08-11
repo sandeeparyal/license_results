@@ -30,7 +30,8 @@ class ExamType(models.Model):
     remarks =  models.CharField(max_length=250)
 
     def __str__(self):
-        return self.exam_type
+        return self.get_exam_type_display()
+    
 
 class LicenseType(models.Model):
 
@@ -82,7 +83,7 @@ class LicenseType(models.Model):
     license_description = models.CharField(max_length=100, null=True)
 
     def __str__(self):
-        return(self.license_name)
+        return(self.get_license_name_display())
 
 class Checklist(models.Model):
     checklist_name = models.CharField(max_length=20)

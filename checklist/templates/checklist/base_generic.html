@@ -6,6 +6,13 @@
 <nav class="navbar navbar-dark bg-primary">
 	<div class="container-md">
 		<a class="navbar-brand" href="#">  Driving License, Ekantakuna </a>
+		{% if user.is_authenticated %}
+		Hello {{ user.username }}!
+		<p> <a class="bg-dark" href="{% url "logout" %}"> logout</a></p>
+		{% else %}
+		<p> You are not logged in </p>
+		<a href="{% url "login" %}"> login</a>
+		{% endif %}
 	</div>
 </nav>
 
