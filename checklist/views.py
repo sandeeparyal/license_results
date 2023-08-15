@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import FileResponse
+from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 from .models import Officer, ExamType, Examination, Checklist, LicenseType
@@ -18,6 +19,7 @@ def index(request):
             examination_type = form.cleaned_data['examination_type']
             examination_license_type = form.cleaned_data['examination_license_type']
             checklists = Checklist.objects.filter(examination__examination_date=str(examination_date), examination__examination_type=examination_type, examination__examination_license_type=examination_license_type)
+            messages.success(request, "File found")
             return render(request, 'checklist/preview.html', {"checklists": checklists })
     else: 
         form = ExaminationForm()
