@@ -5,10 +5,10 @@
 
 <nav class="navbar navbar-dark bg-primary">
 	<div class="container-md">
-		<a class="navbar-brand" href="#">  Driving License, Ekantakuna </a>
+		<a class="navbar-brand" href="#">सवारीचालक अनुमतिपत्र, एकान्तकुना</a>
 		{% if user.is_authenticated %}
-		Hello {{ user.username }}!
-		<p> <a class="text-dark" href="{% url "logout" %}"> logout</a></p>
+	        <div class="text-white"> {{ user.username }} <div>
+		<p> <a class="text-info" href="{% url "logout" %}"> logout</a></p>
 		{% else %}
 		<p> You are not logged in </p>
 		<a href="{% url "login" %}"> login</a>
