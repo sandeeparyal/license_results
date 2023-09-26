@@ -6,6 +6,7 @@
 <div class="row mb-5">
 <div class="text-info text-center">
 सवारीचालक अनुमतिपत्र एकान्तकुनाको चेकलिस्ट डाटाबेसमा स्वागत छ । निम्नानुसारको मिति, परिक्षा किसिम र परिक्षाको वर्ग छान्नुहोस् ।
+<h1 id="error"></h1> <h1 id="success"></h1>
 </div>
 <!--	<div class="text-red text-center"> Welcome to the license examination results verification search system. Please select the date of the examination.
 </div> -->
@@ -14,10 +15,10 @@
 <div class="row">
 <div class="container-md">
 	<div class="mx-auto col-10 col-md-8 col-lg-6">
-<form action="{% url 'checklist:index' %}"  method="POST" id="form1">
+<form action="{% url 'checklist:index' %}"  method="POST" id="checklist-form">
           {% csrf_token %}
 	  {{ form|crispy}}  
-	  <button type="submit" form="form1" value="Submit">खोज्नुहोस्</button>
+	  <button type="submit" type="submit">खोज्नुहोस्</button>
 </form>
 	</div>
 	</div>
@@ -32,5 +33,23 @@
     {% endif %}
 {% endfor %}
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(function() {
+		$("#checklist-form").submit(function (e) {
+				e.preventDefault();
+        var postData = $(this).serialize();
+        $.post('{% url 'checklist:index' %}', postData, function (res) {
+             var res = JSON.parse(res);
+			var res = res[0].fields.checklist_file;
+			$("#success").html('<a href="'+res+'"> View file </a>');
+        }).fail(function (res) {
+            console.log(res);
+        }).always(function () {
+            //
+        });
+    });
 
+		});
+</script>
 {% endblock %}
