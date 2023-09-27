@@ -13,4 +13,5 @@ class ExaminationForm(ModelForm):
     class Meta:
         model = Examination
         fields = ["examination_date", "examination_type", "examination_license_type"]
-        
+       
+  

@@ -54,7 +54,6 @@ class LicenseType(models.Model):
     CATEGORY_J4 = "J4"
     CATEGORY_J5 = "J5"
     CATEGORY_K = "K"
-    WRITTEN_CATEGORY = "X"
 
     CATEGORY_CHOICES = {
          (CATEGORY_A, "A"),
@@ -76,7 +75,6 @@ class LicenseType(models.Model):
          (CATEGORY_J4, "J4"),
          (CATEGORY_J5, "J5"),
          (CATEGORY_K, "K"),
-         (WRITTEN_CATEGORY, "Not Applicable"),
      }
     
     license_name = models.CharField(max_length=20, choices=CATEGORY_CHOICES, null=True)
@@ -102,7 +100,7 @@ class Examination(models.Model):
     traffic_officers = models.CharField(max_length=200)
     
     examination_type = models.ForeignKey(ExamType, on_delete=models.CASCADE)
-    examination_license_type = models.ForeignKey(LicenseType, on_delete=models.CASCADE)
+    examination_license_type = models.ForeignKey(LicenseType, on_delete=models.CASCADE, blank=True)
     examination_officer = models.ForeignKey(Officer, on_delete=models.CASCADE)
     examination_checklist = models.ForeignKey(Checklist, on_delete=models.CASCADE)
     
