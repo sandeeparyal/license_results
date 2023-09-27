@@ -5,8 +5,7 @@
 
 <div class="row mb-5">
 <div class="text-info text-center">
-सवारीचालक अनुमतिपत्र एकान्तकुनाको चेकलिस्ट डाटाबेसमा स्वागत छ । निम्नानुसारको मिति, परिक्षा किसिम र परिक्षाको वर्ग छान्नुहोस् ।
-<h1 id="error"></h1> <h1 id="success"></h1>
+	<h4 class="text-danger "> सवारीचालक अनुमतिपत्र एकान्तकुनाको चेकलिस्ट डाटाबेसमा स्वागत छ । निम्नानुसारको मिति, परिक्षा किसिम र परिक्षाको वर्ग छान्नुहोस् ।</h4>
 </div>
 <!--	<div class="text-red text-center"> Welcome to the license examination results verification search system. Please select the date of the examination.
 </div> -->
@@ -18,8 +17,9 @@
 <form action="{% url 'checklist:index' %}"  method="POST" id="checklist-form">
           {% csrf_token %}
 	  {{ form|crispy}}  
-	  <button type="submit" type="submit">खोज्नुहोस्</button>
+	  <button type="submit" class="btn btn-primary btn-lg" type="submit">खोज्नुहोस्</button>
 </form>
+        <h1 class="text-warning" id="error"></h1> <h1 class="text-success" id="success"></h1>
 	</div>
 	</div>
 </div>
@@ -36,14 +36,27 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(function() {
-		$("#checklist-form").submit(function (e) {
+
+                  $("#id_examination_type").change( function ()  { 
+			if($(this).val()==1) {
+				$("#div_id_examination_license_type").hide();
+				}
+				  else {
+				$("#div_id_examination_license_type").show();
+					  }
+			  });
+
+			$("#checklist-form").submit(function (e) {
 				e.preventDefault();
         var postData = $(this).serialize();
         $.post('{% url 'checklist:index' %}', postData, function (res) {
-             var res = JSON.parse(res);
-			var res = res[0].fields.checklist_file;
-			$("#success").html('<a href="'+res+'"> View file </a>');
+			console.log(res);
+			$("#error").hide();
+			$("#success").html('<a target="_blank" href="'+res+'"> View file </a>').show();
         }).fail(function (res) {
+
+			$("#success").hide();
+			$("#error").html(res.responseText).show();
             console.log(res);
         }).always(function () {
             //
