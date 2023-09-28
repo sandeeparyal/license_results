@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
-from django.core import serializers
+#from django.core import serializers
 from django.http import JsonResponse
-from django.contrib import messages
+#from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 from .models import Officer, ExamType, Examination, Checklist, LicenseType
@@ -40,7 +40,8 @@ def index(request):
         form = ExaminationForm()
         return render(request, 'checklist/index.html', {"form":form }) 
 
-
+def collect_new_files():
+    pass
 
 
 
