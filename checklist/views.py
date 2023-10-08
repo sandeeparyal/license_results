@@ -15,7 +15,6 @@ from .forms import ExaminationForm
 
 @login_required
 def index(request):
-    collect_new_files()
     if request.method == 'POST':
         form = ExaminationForm(request.POST)
         
@@ -40,6 +39,7 @@ def index(request):
             return JsonResponse({'success': False, 'errors': form.errors})
 
     else: 
+        collect_new_files()
         form = ExaminationForm()
         return render(request, 'checklist/index.html', {"form":form }) 
 
@@ -48,12 +48,17 @@ def collect_new_files():
     directory_path = "media/checklist/"
     for filename in os.listdir(directory_path):
         filepath = os.path.join('checklist/', filename)
-        year, month, day = filename[0:4], filename[5:7], filename[8:10]
+        exam_type, license_type = filename[11:12], filename[12:13]
+        try:
+            examination_type = ExamType.objects.get(exam_type=exam_type)
+            license_type = LicenseType.objects.get(license_name=license_type)
+            examination_officer = Officer.objects.get(pk=1)
+        except:
+            pass
+        import pdb; pdb.set_trace()
         checklist = Checklist.objects.create(checklist_name=filename, checklist_file=filepath)
         checklist.save()
-        import pdb; pdb.set_trace()
-        primary_key = 1
-        examination = Examination.objects.create(passed_candidate=0, failed_candidate=0, absent_candidate=0, traffic_officers = "Non", examination_type=ExamType.objects.get(pk=primary_key), examination_license_type=LicenseType.objects.get(pk=primary_key), examination_officer=Officer.objects.get(pk=primary_key), examination_checklist=checklist)
+        examination = Examination.objects.create(examination_date=filename[0:10],passed_candidate=0, failed_candidate=0, absent_candidate=0, traffic_officers = "Non", examination_type=examination_type, examination_license_type=license_type, examination_officer=examination_officer, examination_checklist=checklist)
         examination.save()
 
 
