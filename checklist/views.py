@@ -49,15 +49,19 @@ def collect_new_files():
     for filename in os.listdir(directory_path):
         filepath = os.path.join('checklist/', filename)
         exam_type, license_type = filename[11:12], filename[12:13]
+        
+        import pdb; pdb.set_trace()
+        if "I" or "J" in license_type:
+            license_type == filename[12:14]
+
+        examination_type = ExamType.objects.get(exam_type=exam_type)
+        license_type = LicenseType.objects.get(license_name=license_type)
+        examination_officer = Officer.objects.get(pk=1)
+        checklist = Checklist.objects.create(checklist_name=filename, checklist_file=filepath)
         try:
-            examination_type = ExamType.objects.get(exam_type=exam_type)
-            license_type = LicenseType.objects.get(license_name=license_type)
-            examination_officer = Officer.objects.get(pk=1)
+            checklist.save()
         except:
             pass
-        import pdb; pdb.set_trace()
-        checklist = Checklist.objects.create(checklist_name=filename, checklist_file=filepath)
-        checklist.save()
         examination = Examination.objects.create(examination_date=filename[0:10],passed_candidate=0, failed_candidate=0, absent_candidate=0, traffic_officers = "Non", examination_type=examination_type, examination_license_type=license_type, examination_officer=examination_officer, examination_checklist=checklist)
         examination.save()
 
